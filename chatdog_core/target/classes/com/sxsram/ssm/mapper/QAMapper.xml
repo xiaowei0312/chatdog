@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sxsram.ssm.mapper.QAMapper">
+	<select id="queryQATypes" resultType="com.sxsram.ssm.entity.QAType">
+		select
+		id,typeName
+		from
+		t_online_commodity_type
+		where
+		parentId is null
+		order by
+		sequence
+	</select>
+
+	<resultMap type="com.sxsram.ssm.entity.QAEntity" id="map_qaEntity">
+		<id column="id" property="id" />
+		<result column="question" property="question" />
+		<result column="answer" property="answer" />
+		<result column="url" property="url" />
+		<result column="picUrl" property="picUrl" />
+		<result column="status" property="status" />
+		<result column="lastModifyTime" property="lastModifyTime" />
+		<result column="extra" property="extra" />
+		<association property="qaType" javaType="com.sxsram.ssm.entity.QAType">
+			<id column="tid" property="id" />
+			<result column="tname" property="name" />
+		</association>
+		<association property="qaFlag" javaType="com.sxsram.ssm.entity.QAFlag">
+			<id column="fid" property="id" />
+			<result column="fFlagNo" property="flagNo" />
+			<result column="fName" property="name" />
+			<result column="fSequence" property="sequence" />
+			<result column="fExtra" property="extra" />
+		</association>
+	</resultMap>
+
+	<select id="querySingleQAEntity" parameterType="com.sxsram.ssm.entity.QAEntityQueryVo"
+		resultMap="map_qaEntity">
+		select
+		c.*,
+		t.id as
+		tid,t.name as tname,
+		f.id as fid,f.flagNo as
+		fFlagNo,f.name as fName,f.sequence as fSequence,f.extra as fExtra
+		from
+		t_qa c
+		join t_qa_type t on c.typeId = t.id
+		join t_qa_flag f on c.flagId = f.id
+		where
+		1 = 1
+		<if test="queryCondition != null">
+			<if test="queryCondition.whereCond != null">
+				and ${queryCondition.whereCond}
+			</if>
+		</if>
+		<if test="pagination != null">
+			<if test="pagination.orderByCols != null">
+				order by ${pagination.orderByCols}
+			</if>
+			<if test="pagination.limitStart != null">
+				limit #{pagination.limitStart},#{pagination.limitNum}
+			</if>
+		</if>
+	</select>
+
+	<select id="queryMultiQAEntities" parameterType="com.sxsram.ssm.entity.QAEntityQueryVo"
+		resultMap="map_qaEntity">
+		select
+		c.*,
+		t.id as
+		tid,t.name as tname,
+		f.id as fid,f.flagNo as
+		fFlagNo,f.name as fName,f.sequence as fSequence,f.extra as fExtra
+		from
+		t_qa c
+		join t_qa_type t on c.typeId = t.id
+		join t_qa_flag f on c.flagId = f.id
+		where
+		1 = 1
+		<if test="queryCondition != null">
+			<if test="queryCondition.whereCond != null">
+				and ${queryCondition.whereCond}
+			</if>
+		</if>
+		<if test="pagination != null">
+			<if test="pagination.orderByCols != null">
+				order by ${pagination.orderByCols}
+			</if>
+			<if test="pagination.limitStart != null">
+				limit #{pagination.limitStart},#{pagination.limitNum}
+			</if>
+		</if>
+	</select>
+
+	<select id="queryQAEntityTotalNum" parameterType="com.sxsram.ssm.entity.QAEntityQueryVo"
+		resultType="Integer">
+		select
+		COUNT(*)
+		from
+		t_qa
+		where
+		1=1
+		<if test="queryCondition != null">
+			<if test="queryCondition.whereCond != null">
+				and ${queryCondition.whereCond}
+			</if>
+		</if>
+	</select>
+
+	<select id="queryMultiQATypes" parameterType="com.sxsram.ssm.entity.QATypeQueryVo"
+		resultType="com.sxsram.ssm.entity.QAType">
+		select
+		id,name,sequence,extra
+		from
+		t_qa_type
+		where
+		1=1
+		<if test="queryCondition != null">
+			<if test="queryCondition.whereCond != null">
+				and ${queryCondition.whereCond}
+			</if>
+		</if>
+		<if test="pagination != null">
+			<if test="pagination.orderByCols != null">
+				order by ${pagination.orderByCols}
+			</if>
+			<if test="pagination.limitStart != null">
+				limit #{pagination.limitStart},#{pagination.limitNum}
+			</if>
+		</if>
+	</select>
+
+	<select id="querySingleQATypes" parameterType="com.sxsram.ssm.entity.QATypeQueryVo"
+		resultType="com.sxsram.ssm.entity.QAType">
+		select
+		id,name,sequence,extra
+		from
+		t_qa_type
+		where
+		1=1
+		<if test="queryCondition != null">
+			<if test="queryCondition.whereCond != null">
+				and ${queryCondition.whereCond}
+			</if>
+		</if>
+		<if test="pagination != null">
+			<if test="pagination.orderByCols != null">
+				order by ${pagination.orderByCols}
+			</if>
+			<if test="pagination.limitStart != null">
+				limit #{pagination.limitStart},#{pagination.limitNum}
+			</if>
+		</if>
+	</select>
+
+	<select id="queryQATypesTotalNum" parameterType="com.sxsram.ssm.entity.QATypeQueryVo"
+		resultType="Integer">
+		select
+		count(*)
+		from
+		t_qa_type
+		where
+		1=1
+		<if test="queryCondition != null">
+			<if test="queryCondition.whereCond != null">
+				and ${queryCondition.whereCond}
+			</if>
+		</if>
+	</select>
+	
+	<select id="queryMultiQAFlags" parameterType="com.sxsram.ssm.entity.QAFlagQueryVo"
+		resultType="com.sxsram.ssm.entity.QAFlag">
+		select
+		id,flagNo,name,sequence,extra
+		from
+		t_qa_flag
+		where
+		1=1
+		<if test="queryCondition != null">
+			<if test="queryCondition.whereCond != null">
+				and ${queryCondition.whereCond}
+			</if>
+		</if>
+		<if test="pagination != null">
+			<if test="pagination.orderByCols != null">
+				order by ${pagination.orderByCols}
+			</if>
+			<if test="pagination.limitStart != null">
+				limit #{pagination.limitStart},#{pagination.limitNum}
+			</if>
+		</if>
+	</select>
+	
+	<select id="querySingleQAFlags" parameterType="com.sxsram.ssm.entity.QAFlagQueryVo"
+		resultType="com.sxsram.ssm.entity.QAFlag">
+		select
+		id,flagNo,name,sequence,extra
+		from
+		t_qa_flag
+		where
+		1=1
+		<if test="queryCondition != null">
+			<if test="queryCondition.whereCond != null">
+				and ${queryCondition.whereCond}
+			</if>
+		</if>
+		<if test="pagination != null">
+			<if test="pagination.orderByCols != null">
+				order by ${pagination.orderByCols}
+			</if>
+			<if test="pagination.limitStart != null">
+				limit #{pagination.limitStart},#{pagination.limitNum}
+			</if>
+		</if>
+	</select>
+	
+	<select id="queryQAFlagsTotalNum" parameterType="com.sxsram.ssm.entity.QAFlagQueryVo"
+		resultType="Integer">
+		select
+		count(*)
+		from
+		t_qa_flag
+		where
+		1=1
+		<if test="queryCondition != null">
+			<if test="queryCondition.whereCond != null">
+				and ${queryCondition.whereCond}
+			</if>
+		</if>
+	</select>
+
+	<update id="updateQAType" parameterType="com.sxsram.ssm.entity.QATypeQueryVo">
+		update t_qa_type
+		<trim prefix="set" suffixOverrides=",">
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="sequence != null">
+				sequence = #{sequence},
+			</if>
+			<if test="extra != null">
+				extra = #{extra},
+			</if>
+		</trim>
+		<where>
+			<if test="id != null">
+				id = #{id}
+			</if>
+		</where>
+	</update>
+
+	<delete id="deleteQAType" parameterType="com.sxsram.ssm.entity.QAType">
+		delete from
+		t_qa_type
+		where id = #{id}
+	</delete>
+
+	<insert id="insertNewQAType" parameterType="com.sxsram.ssm.entity.QAType">
+		<!-- 将插入数据的主键返回，返回到user对象中 keyProperty: 将查询到的主键赋给 parameterType的哪个属性 order: 
+			AFTER，插入之后执行查询 -->
+		<selectKey keyProperty="id" order="BEFORE" resultType="String">
+			SELECT
+			upper(replace(uuid(),'-',''))
+		</selectKey>
+
+		insert into
+		t_qa_type(id,name,sequence,extra)
+		values(#{id},#{name},#{sequence},#{extra})
+	</insert>
+
+	<update id="updateQAEntity" parameterType="com.sxsram.ssm.entity.QAEntity">
+		update t_qa
+		<trim prefix="set" suffixOverrides=",">
+			<if test="question != null">
+				question = #{question},
+			</if>
+			<if test="answer != null">
+				answer = #{answer},
+			</if>
+			<if test="url != null">
+				url = #{url},
+			</if>
+			<if test="picUrl != null">
+				picUrl = #{picUrl},
+			</if>
+			<if test="flagId != null">
+				flagId = #{flagId},
+			</if>
+			<if test="typeId != null">
+				typeId = #{typeId},
+			</if>
+			<if test="status != null">
+				status = #{status},
+			</if>
+			<if test="extra != null">
+				extra = #{extra},
+			</if>
+		</trim>
+		<where>
+			<if test="id != null">
+				id = #{id}
+			</if>
+		</where>
+	</update>
+
+	<insert id="insertNewQAEntity" parameterType="com.sxsram.ssm.entity.QAEntity">
+		<!-- 将插入数据的主键返回，返回到user对象中 keyProperty: 将查询到的主键赋给 parameterType的哪个属性 order: 
+			AFTER，插入之后执行查询 -->
+		<selectKey keyProperty="id" order="BEFORE" resultType="String">
+			SELECT
+			upper(replace(uuid(),'-',''))
+		</selectKey>
+
+		insert into
+		t_qa(id,question,answer,url,picUrl,extra,status,typeId,flagId)
+		values(#{id},#{question},#{answer},#{url},#{picUrl},#{extra},#{status},#{typeId},#{flagId})
+	</insert>
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="chatdog_wechat">
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/resources"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <dependent-module archiveName="chatdog_core-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/chatdog_core/chatdog_core">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="chatdog_util-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/chatdog_util/chatdog_util">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="chatdog_exception-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/chatdog_exception/chatdog_exception">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="chatdog_log-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/chatdog_log/chatdog_log">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="java-output-path" value="/chatdog_wechat/target/classes"/>
+        <property name="context-root" value="chatdog_wechat"/>
+    </wb-module>
+</project-modules>

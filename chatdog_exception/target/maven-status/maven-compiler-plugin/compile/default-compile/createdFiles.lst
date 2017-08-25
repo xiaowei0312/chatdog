@@ -1,0 +1,4 @@
+com\sxsram\ssm\exception\TestException.class
+com\sxsram\ssm\exception\CommodityModelNotFoundException.class
+com\sxsram\ssm\exception\SQLOperatorNotSupportedException.class
+com\sxsram\ssm\exception\CommodityModelNotFoundFromCartException.class
